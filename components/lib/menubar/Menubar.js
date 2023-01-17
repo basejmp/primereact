@@ -51,7 +51,6 @@ export const Menubar = React.memo(
         React.useImperativeHandle(ref, () => ({
             props,
             toggle,
-            useCustomContent,
             getElement: () => elementRef.current,
             getRootMenu: () => rootMenuRef.current,
             getMenuButton: () => menuButtonRef.current
@@ -106,7 +105,7 @@ export const Menubar = React.memo(
         const submenu = <MenubarSub ref={rootMenuRef} menuProps={props} model={props.model} root mobileActive={mobileActiveState} onLeafClick={onLeafClick} />;
 
         return (
-            <div id={props.id} className={className} style={props.style} {...otherProps}>
+            <div ref={elementRef} id={props.id} className={className} style={props.style} {...otherProps}>
                 {start}
                 {menuButton}
                 {submenu}
