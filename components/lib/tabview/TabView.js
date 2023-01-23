@@ -223,7 +223,7 @@ export const TabView = React.forwardRef((props, ref) => {
         const headers = createTabHeaders();
 
         return (
-            <div ref={contentRef} id={idState} className="p-tabview-nav-content" style={props.style} onScroll={onScroll}>
+            <div ref={contentRef} id={idState} className="p-tabview-nav-content" onScroll={onScroll}>
                 <ul ref={navRef} className="p-tabview-nav" role="tablist">
                     {headers}
                     <li ref={inkbarRef} className="p-tabview-ink-bar"></li>
@@ -296,7 +296,7 @@ export const TabView = React.forwardRef((props, ref) => {
     const nextButton = createNextButton();
 
     return (
-        <div ref={elementRef} className={className} {...otherProps}>
+        <div ref={elementRef} className={className} {...otherProps} style={props.style}>
             <div className="p-tabview-nav-container">
                 {prevButton}
                 {navigator}
