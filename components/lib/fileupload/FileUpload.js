@@ -15,6 +15,7 @@ export const FileUpload = React.memo(
         const fileInputRef = React.useRef(null);
         const messagesRef = React.useRef(null);
         const contentRef = React.useRef(null);
+        const elementRef = React.useRef(null);
         const duplicateIEEvent = React.useRef(false);
         const uploadedFileCount = React.useRef(0);
         const hasFiles = ObjectUtils.isNotEmpty(filesState);
@@ -332,7 +333,8 @@ export const FileUpload = React.memo(
             getInput: () => fileInputRef.current,
             getContent: () => contentRef.current,
             getFiles: () => filesState,
-            setFiles: (files) => setFilesState(files || [])
+            setFiles: (files) => setFilesState(files || []),
+            getElement: () => elementRef.current
         }));
 
         const createChooseButton = () => {
@@ -471,7 +473,7 @@ export const FileUpload = React.memo(
             }
 
             return (
-                <div id={props.id} className={className} style={props.style} {...otherProps}>
+                <div ref={elementRef} id={props.id} className={className} style={props.style} {...otherProps}>
                     {header}
                     <div ref={contentRef} className={contentClassName} style={props.contentStyle} onDragEnter={onDragEnter} onDragOver={onDragOver} onDragLeave={onDragLeave} onDrop={onDrop}>
                         {progressBar}
@@ -496,7 +498,7 @@ export const FileUpload = React.memo(
             const input = !hasFiles && <input ref={fileInputRef} type="file" accept={props.accept} multiple={props.multiple} disabled={disabled} onChange={onFileSelect} />;
 
             return (
-                <div className={className} style={props.style} {...otherProps}>
+                <div ref={elementRef} className={className} style={props.style} {...otherProps}>
                     <Messages ref={messagesRef} />
                     <span className={buttonClassName} style={chooseOptions.style} onMouseUp={onSimpleUploaderClick} onKeyDown={onKeyDown} onFocus={onFocus} onBlur={onBlur} tabIndex={0}>
                         {icon}

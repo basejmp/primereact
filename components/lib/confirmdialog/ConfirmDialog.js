@@ -27,6 +27,7 @@ export const ConfirmDialog = React.memo(
         const [visibleState, setVisibleState] = React.useState(props.visible);
         const [reshowState, setReshowState] = React.useState(false);
         const confirmProps = React.useRef(null);
+        const dialogRef = React.useRef(null);
         const getCurrentProps = () => confirmProps.current || props;
         const getPropValue = (key) => (confirmProps.current || props)[key];
         const callbackFromProp = (key, ...param) => ObjectUtils.getPropValue(getPropValue(key), param);
@@ -95,7 +96,8 @@ export const ConfirmDialog = React.memo(
 
         React.useImperativeHandle(ref, () => ({
             props,
-            confirm
+            confirm,
+            getElement: () => dialogRef.current.getElement()
         }));
 
         const createFooter = () => {
@@ -141,7 +143,7 @@ export const ConfirmDialog = React.memo(
             const footer = createFooter();
 
             return (
-                <Dialog visible={visibleState} {...otherProps} className={className} footer={footer} onHide={hide} breakpoints={getPropValue('breakpoints')}>
+                <Dialog visible={visibleState} {...otherProps} className={className} footer={footer} onHide={hide} breakpoints={getPropValue('breakpoints')} ref={dialogRef} appendTo={getPropValue('appendTo')}>
                     {icon}
                     <span className="p-confirm-dialog-message">{message}</span>
                 </Dialog>
@@ -150,7 +152,7 @@ export const ConfirmDialog = React.memo(
 
         const element = createElement();
 
-        return <Portal element={element} appendTo={getPropValue('appendTo')} />;
+        return element;
     })
 );
 
