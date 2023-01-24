@@ -41,6 +41,7 @@ export const FileUpload = React.memo(
         const fileInputRef = React.useRef(null);
         const messagesRef = React.useRef(null);
         const contentRef = React.useRef(null);
+        const elementRef = React.useRef(null);
         const uploadedFileCount = React.useRef(0);
         const hasFiles = ObjectUtils.isNotEmpty(filesState);
         const hasUploadedFiles = ObjectUtils.isNotEmpty(uploadedFilesState);
@@ -356,6 +357,7 @@ export const FileUpload = React.memo(
             getContent: () => contentRef.current,
             getFiles: () => filesState,
             setFiles: (files) => setFilesState(files || []),
+            getElement: () => elementRef.current,
             getUploadedFiles: () => uploadedFilesState,
             setUploadedFiles: (files) => setUploadedFilesState(files || [])
         }));
@@ -668,7 +670,7 @@ export const FileUpload = React.memo(
             );
 
             return (
-                <div {...rootProps}>
+                <div ref={elementRef} {...rootProps}>
                     {header}
                     <div {...contentProps}>
                         {progressBar}
@@ -735,7 +737,7 @@ export const FileUpload = React.memo(
             );
 
             return (
-                <div {...rootProps}>
+                <div ref={elementRef} {...rootProps}>
                     <Messages ref={messagesRef} pt={ptm('message')} __parentMetadata={{ parent: metaData }} />
                     <span {...basicButtonProps}>
                         {chooseIcon}
