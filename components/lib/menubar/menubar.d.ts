@@ -2,7 +2,7 @@
  *
  * Manubar is an input component that provides real-time suggestions when being typed.
  *
- * [Live Demo](https://www.primefaces.org/primereact/menubar/)
+ * [Live Demo](https://www.primereact.org/menubar/)
  *
  * @module menubar
  *
@@ -35,6 +35,14 @@ export interface MenubarProps extends Omit<React.DetailedHTMLProps<React.HTMLAtt
 }
 
 /**
+ * **PrimeReact - Menubar**
+ *
+ * _Manubar is an input component that provides real-time suggestions when being typed._
+ *
+ * [Live Demo](https://www.primereact.org/menubar/)
+ * --- ---
+ * ![PrimeReact](https://primefaces.org/cdn/primereact/images/logo-100.png)
+ *
  * @group Component
  */
 export declare class Menubar extends React.Component<MenubarProps, any> {
@@ -44,12 +52,12 @@ export declare class Menubar extends React.Component<MenubarProps, any> {
      */
     public getElement(): HTMLDivElement;
     /**
-     * @todo Write the documentation
+     * Used to get root menu element.
      * @return {HTMLElement} Root menu element
      */
     public getRootMenu(): HTMLElement;
     /**
-     * @todo Write the documentation
+     * Used to get menu button element.
      * @return {HTMLElement} Menu button element
      */
     public getMenuButton(): HTMLElement;

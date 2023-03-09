@@ -2,7 +2,7 @@
  *
  * Sidebar is a panel component displayed as an overlay.
  *
- * [Live Demo](https://www.primefaces.org/primereact/sidebar/)
+ * [Live Demo](https://www.primereact.org/sidebar/)
  *
  * @module sidebar
  *
@@ -84,7 +84,8 @@ export interface SidebarProps extends Omit<React.DetailedHTMLProps<React.HTMLAtt
      */
     appendTo?: 'self' | HTMLElement | null | undefined;
     /**
-     * The properties of {@link CSSTransitionProps} can be customized, except for "nodeRef" and "in" properties.
+     * The properties of CSSTransition can be customized, except for "nodeRef" and "in" properties.
+     * @type {CSSTransitionProps}
      */
     transitionOptions?: CSSTransitionProps | undefined;
     /**
@@ -103,6 +104,14 @@ export interface SidebarProps extends Omit<React.DetailedHTMLProps<React.HTMLAtt
 }
 
 /**
+ * **PrimeReact - Sidebar**
+ *
+ * _Sidebar is a panel component displayed as an overlay._
+ *
+ * [Live Demo](https://www.primereact.org/sidebar/)
+ * --- ---
+ * ![PrimeReact](https://primefaces.org/cdn/primereact/images/logo-100.png)
+ *
  * @group Component
  */
 export declare class Sidebar extends React.Component<SidebarProps, any> {

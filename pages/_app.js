@@ -1,18 +1,20 @@
-import '../styles/layout/layout.scss';
-import '../styles/primereact.css';
-import 'primeicons/primeicons.css';
+import '@docsearch/css';
 import 'primeflex/primeflex.css';
-import '../styles/demo/demo.scss';
-import Layout from '../components/layout/layout';
+import 'primeicons/primeicons.css';
 import { useEffect, useRef, useState } from 'react';
+import Layout from '../components/layout/layout';
 import fetchNews from '../service/NewsService';
-import { useStorage } from '../components/lib/hooks/useStorage';
+import '../styles/layout/layout.scss';
+// prettier-ignore
+import '../styles/primereact.css';
+// prettier-ignore
+import '../styles/demo/demo.scss';
 
 export default function MyApp({ Component }) {
     const [dark, setDark] = useState(false);
-    const [theme, setTheme] = useStorage('lara-light-indigo', 'primereact-showcase-theme');
-    const [storedNews, setStoredNews] = useStorage('', 'primereact-news');
+    const [theme, setTheme] = useState('lara-light-indigo');
     const [newsActive, setNewsActive] = useState(false);
+    const storageKey = 'primereact-news';
     const announcement = useRef(null);
 
     useEffect(() => {
@@ -49,11 +51,14 @@ export default function MyApp({ Component }) {
                 hiddenNews: announcement.current.id
             };
 
-            setStoredNews(item);
+            localStorage.setItem(storageKey, JSON.stringify(item));
         },
         onThemeChange: (newTheme, dark) => {
             setDark(dark);
             changeTheme(newTheme);
+        },
+        onTableThemeChange: (currentTableTheme, newTableTheme) => {
+            changeTableTheme(currentTableTheme, newTableTheme);
         }
     };
 
@@ -72,6 +77,24 @@ export default function MyApp({ Component }) {
 
         linkElement.parentNode.insertBefore(cloneLinkElement, linkElement.nextSibling);
         setTheme(newTheme);
+    };
+
+    const changeTableTheme = (currentTableTheme, newTableTheme) => {
+        if (currentTableTheme !== newTableTheme) {
+            const elementId = 'landing-table-theme-link';
+            const linkElement = document.getElementById(elementId);
+            const cloneLinkElement = linkElement.cloneNode(true);
+            const newThemeUrl = linkElement.getAttribute('href').replace(currentTableTheme, newTableTheme);
+
+            cloneLinkElement.setAttribute('id', elementId + '-clone');
+            cloneLinkElement.setAttribute('href', newThemeUrl);
+            cloneLinkElement.addEventListener('load', () => {
+                linkElement.remove();
+                cloneLinkElement.setAttribute('id', elementId);
+            });
+
+            linkElement.parentNode.insertBefore(cloneLinkElement, linkElement.nextSibling);
+        }
     };
 
     if (Component.getLayout) {

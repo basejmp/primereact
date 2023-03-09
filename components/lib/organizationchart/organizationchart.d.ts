@@ -2,7 +2,7 @@
  *
  * OrganizationChart visualizes hierarchical organization data.
  *
- * [Live Demo](https://www.primefaces.org/primereact/organizationchart/)
+ * [Live Demo](https://www.primereact.org/organizationchart/)
  *
  * @module organizationchart
  *
@@ -42,31 +42,36 @@ interface OrganizationChartNodeUnselectEvent {
 }
 
 /**
- * @todo Write the documentation
+ * Custom organizationchart node data.
  */
 interface OrganizationChartNodeData {
     /**
-     * @todo Write the documentation
+     * Style class of the node.
      */
     className?: string;
     /**
-     * @todo Write the documentation
+     * Visibility of node.
      */
     expanded?: boolean;
     /**
-     * @todo Write the documentation
+     * The child elements of the component.
+     * @readonly
      */
     children?: OrganizationChartNodeData[];
     /**
-     * @todo Write the documentation
+     * Whether the node is selectable when selection mode is enabled.
      */
     selectable?: boolean;
     /**
-     * @todo Write the documentation
+     * Label of node.
      */
     label?: string;
 }
 
+/**
+ * Defines valid properties in OrganizationChart component. In addition to these, all properties of HTMLDivElement can be used in this component.
+ * @group Properties
+ */
 export interface OrganizationChartProps extends Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'ref'> {
     /**
      * An array of nested TreeNodes.
@@ -86,7 +91,7 @@ export interface OrganizationChartProps extends Omit<React.DetailedHTMLProps<Rea
      */
     nodeTemplate?(node: OrganizationChartNodeData): React.ReactNode;
     /**
-     * @todo Write the documentation
+     * Callback to invoke when node selection changes.
      * @param {OrganizationChartNodeData | OrganizationChartNodeData[] | null | undefined} node - A node instance.
      */
     selectionChange?(node: OrganizationChartNodeData | OrganizationChartNodeData[] | null | undefined): void;
@@ -108,6 +113,14 @@ export interface OrganizationChartProps extends Omit<React.DetailedHTMLProps<Rea
 }
 
 /**
+ * **PrimeReact - OrganizationChart**
+ *
+ * _OrganizationChart visualizes hierarchical organization data._
+ *
+ * [Live Demo](https://www.primereact.org/organizationchart/)
+ * --- ---
+ * ![PrimeReact](https://primefaces.org/cdn/primereact/images/logo-100.png)
+ *
  * @group Component
  */
 export declare class OrganizationChart extends React.Component<OrganizationChartProps, any> {

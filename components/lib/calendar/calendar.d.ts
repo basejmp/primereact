@@ -2,14 +2,14 @@
  *
  * Calendar also known as DatePicker, is a form component to work with dates.
  *
- * [Live Demo](https://www.primefaces.org/primereact/calendar/)
+ * [Live Demo](https://www.primereact.org/calendar/)
  *
  * @module calendar
  *
  */
 import * as React from 'react';
 import { CSSTransitionProps } from '../csstransition';
-import TooltipOptions from '../tooltip/tooltipoptions';
+import { TooltipOptions } from '../tooltip/tooltipoptions';
 import { FormEvent, Nullable } from '../ts-helpers';
 import { IconType } from '../utils';
 
@@ -39,7 +39,7 @@ interface CalendarMonthChangeEvent {
 
 /**
  * Custom view change event
- * @see {@link CalenderProps.onViewDateChange}
+ * @see {@link CalendarProps.onViewDateChange}
  * @event
  */
 interface CalendarViewChangeEvent {
@@ -577,7 +577,6 @@ export interface CalendarProps {
      */
     onVisibleChange?(event: CalendarVisibleChangeEvent): void;
     /**
-     * @todo
      * Function that gets a navigator information and returns the navigator in header.
      * @param {CalendarYearNavigatorTemplateEvent} event - Custom year navigator template event
      */
@@ -590,6 +589,14 @@ export interface CalendarProps {
 }
 
 /**
+ * **PrimeReact - Calendar**
+ *
+ * _Calendar also known as DatePicker, is a form component to work with dates._
+ *
+ * [Live Demo](https://www.primereact.org/calendar/)
+ * --- ---
+ * ![PrimeReact](https://primefaces.org/cdn/primereact/images/logo-100.png)
+ *
  * @group Component
  */
 export declare class Calendar extends React.Component<CalendarProps, any> {

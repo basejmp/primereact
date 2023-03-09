@@ -2,7 +2,7 @@
  *
  * Dialog is a container to display content in an overlay window.
  *
- * [Live Demo](https://www.primefaces.org/primereact/dialog)
+ * [Live Demo](https://www.primereact.org/dialog)
  *
  * @module dialog
  *
@@ -11,11 +11,11 @@ import * as React from 'react';
 import { CSSTransitionProps } from '../csstransition';
 
 /**
- * @todo Write the documantation
+ * Dialog break options
  */
 interface DialogBreakpoints {
     /**
-     * @todo Write the documantation
+     * Extra options.
      */
     [key: string]: string;
 }
@@ -27,7 +27,7 @@ interface DialogBreakpoints {
  */
 interface DialogMaximizeEvent {
     /**
-     * @todo Write the documantation
+     * Browser mouse event.
      */
     originalEvent: React.SyntheticEvent;
     /**
@@ -258,11 +258,19 @@ export interface DialogProps {
 }
 
 /**
+ * **PrimeReact - Dialog**
+ *
+ * _Dialog is a container to display content in an overlay window._
+ *
+ * [Live Demo](https://www.primereact.org/dialog/)
+ * --- ---
+ * ![PrimeReact](https://primefaces.org/cdn/primereact/images/logo-100.png)
+ *
  * @group Component
  */
 export declare class Dialog extends React.Component<DialogProps, any> {
     /**
-     * @todo Write the documantation
+     * Reset the dialog's position.
      */
     public resetPosition(): void;
     /**
@@ -271,7 +279,7 @@ export declare class Dialog extends React.Component<DialogProps, any> {
      */
     public getElement(): HTMLDivElement;
     /**
-     * @todo Write the documantation
+     * Used to get mask element.
      * @return {HTMLDivElement} Mask element
      */
     public getMask(): HTMLDivElement;
@@ -286,12 +294,12 @@ export declare class Dialog extends React.Component<DialogProps, any> {
      */
     public getHeader(): HTMLDivElement;
     /**
-     * @todo Write the documantation
+     * Used to get the dialog's footer element.
      * @return {HTMLDivElement} Footer element
      */
     public getFooter(): HTMLDivElement;
     /**
-     * @todo Write the documantation
+     * Used to get close button element.
      * @return {HTMLButtonElement} CloseButton element
      */
     public getCloseButton(): HTMLButtonElement;

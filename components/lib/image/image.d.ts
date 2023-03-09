@@ -2,7 +2,7 @@
  *
  * Displays a single image with preview and tranformation options.
  *
- * [Live Demo](https://www.primefaces.org/primereact/image/)
+ * [Live Demo](https://www.primereact.org/image/)
  *
  * @module image
  *
@@ -15,7 +15,7 @@ import * as React from 'react';
  */
 export interface ImageProps extends Omit<React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>, 'ref'> {
     /**
-     * @todo Write the documentation.
+     * Specifies an alternate text for an area, if the image cannot be displayed.
      */
     alt?: string | undefined;
     /**
@@ -29,7 +29,7 @@ export interface ImageProps extends Omit<React.DetailedHTMLProps<React.HTMLAttri
      */
     downloadable?: boolean | undefined;
     /**
-     * @todo Write the documentation.
+     * Height of the image element.
      */
     height?: string | undefined;
     /**
@@ -54,7 +54,7 @@ export interface ImageProps extends Omit<React.DetailedHTMLProps<React.HTMLAttri
      */
     template?: any | undefined;
     /**
-     * @todo Write the documentation.
+     * Width of the image element.
      */
     width?: string | undefined;
     /**
@@ -72,6 +72,14 @@ export interface ImageProps extends Omit<React.DetailedHTMLProps<React.HTMLAttri
 }
 
 /**
+ * **PrimeReact - Image**
+ *
+ * _Displays a single image with preview and tranformation options._
+ *
+ * [Live Demo](https://www.primereact.org/image/)
+ * --- ---
+ * ![PrimeReact](https://primefaces.org/cdn/primereact/images/logo-100.png)
+ *
  * @group Component
  */
 export declare class Image extends React.Component<ImageProps, any> {
@@ -89,7 +97,8 @@ export declare class Image extends React.Component<ImageProps, any> {
      */
     public getElement(): HTMLSpanElement;
     /**
-     * @todo Write the documentation.
+     * Used to get image element
+     * @return {HTMLImageElement} Image element
      */
     public getImage(): HTMLImageElement;
 }

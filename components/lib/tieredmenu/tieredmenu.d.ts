@@ -2,14 +2,14 @@
  *
  * TieredMenu is an input component that provides real-time suggestions when being typed.
  *
- * [Live Demo](https://www.primefaces.org/primereact/tieredmenu/)
+ * [Live Demo](https://www.primereact.org/tieredmenu/)
  *
  * @module tieredmenu
  *
  */
 import * as React from 'react';
-import { MenuItem } from '../menuitem';
 import { CSSTransitionProps } from '../csstransition';
+import { MenuItem } from '../menuitem';
 
 /**
  * Defines valid properties in TieredMenu component. In addition to these, all properties of HTMLDivElement can be used in this component.
@@ -31,6 +31,15 @@ export interface TieredMenuProps extends Omit<React.DetailedHTMLProps<React.HTML
      */
     autoZIndex?: boolean | undefined;
     /**
+     * The breakpoint to define the maximum width boundary when responsiveness is enabled.
+     */
+    breakpoint?: string | undefined;
+    /**
+     * Maximum height of the options panel on responsive mode.
+     * @defaultValue 400px
+     */
+    scrollHeight?: string | undefined;
+    /**
      * Whether to automatically manage layering.
      * @defaultValue 0
      */
@@ -41,7 +50,8 @@ export interface TieredMenuProps extends Omit<React.DetailedHTMLProps<React.HTML
      */
     appendTo?: 'self' | HTMLElement | null | undefined;
     /**
-     * The properties of {@link CSSTransitionProps} can be customized, except for "nodeRef" and "in" properties.
+     * The properties of CSSTransition can be customized, except for "nodeRef" and "in" properties.
+     * @type {CSSTransitionProps}
      */
     transitionOptions?: CSSTransitionProps | undefined;
     /**
@@ -62,6 +72,14 @@ export interface TieredMenuProps extends Omit<React.DetailedHTMLProps<React.HTML
 }
 
 /**
+ * **PrimeReact - TieredMenu**
+ *
+ * _TieredMenu is an input component that provides real-time suggestions when being typed._
+ *
+ * [Live Demo](https://www.primereact.org/tieredmenu/)
+ * --- ---
+ * ![PrimeReact](https://primefaces.org/cdn/primereact/images/logo-100.png)
+ *
  * @group Component
  */
 export declare class TieredMenu extends React.Component<TieredMenuProps, any> {

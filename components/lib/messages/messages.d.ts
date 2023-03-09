@@ -2,7 +2,7 @@
  *
  * Messages is used to display inline messages with various severities.
  *
- * [Live Demo](https://www.primefaces.org/primereact/messages)
+ * [Live Demo](https://www.primereact.org/messages)
  *
  * @module messages
  *
@@ -80,6 +80,14 @@ export interface MessagesProps extends Omit<React.DetailedHTMLProps<React.HTMLAt
 }
 
 /**
+ * **PrimeReact - Messages**
+ *
+ * _Messages is used to display inline messages with various severities._
+ *
+ * [Live Demo](https://www.primereact.org/messages/)
+ * --- ---
+ * ![PrimeReact](https://primefaces.org/cdn/primereact/images/logo-100.png)
+ *
  * @group Component
  */
 export declare class Messages extends React.Component<MessagesProps, any> {
