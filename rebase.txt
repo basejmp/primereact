@@ -1,0 +1,5 @@
+git remote add upstream https://github.com/primefaces/primereact.git
+git fetch upstream
+git checkout main
+git rebase upstream/main
+git push -f origin main
