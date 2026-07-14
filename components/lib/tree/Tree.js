@@ -16,17 +16,17 @@ export const Tree = React.memo(
 
         const [filterValue, filterValueState, setFilterValueState] = useDebounce('', props.filterDelay || 0);
         const [expandedKeysState, setExpandedKeysState] = React.useState(props.expandedKeys);
-        const [filterExpandedKeys, setFilterExpandedKeys] = React.useState({});
 
         const elementRef = React.useRef(null);
         const filteredNodes = React.useRef([]);
         const dragState = React.useRef(null);
         const filterChanged = React.useRef(false);
+        const [, forceRender] = React.useState(false);
 
         const filteredValue = props.onFilterValueChange ? props.filterValue : filterValueState;
         const isFiltering = props.filter && filteredValue;
-        const expandedKeys = isFiltering ? filterExpandedKeys : props.onToggle ? props.expandedKeys : expandedKeysState;
-        const currentFilterExpandedKeys = {};
+        const expandedKeys = props.onToggle ? props.expandedKeys : expandedKeysState;
+        const currentFilterExpandedKeys = React.useRef({});
 
         const childFocusEvent = React.useRef(null);
         const { ptm, cx, isUnstyled } = TreeBase.setMetaData({
@@ -51,18 +51,20 @@ export const Tree = React.memo(
         const onToggle = (event) => {
             const { originalEvent, value, navigateFocusToChild } = event;
 
-            if (props.onToggle) {
+            if (originalEvent == null && isFiltering) {
+                if (props.onToggle) {
+                    props.onToggle({ originalEvent, value: { ...props.expandedKeys, ...value } });
+                } else {
+                    setExpandedKeysState({ ...expandedKeysState, ...value });
+                }
+            } else if (props.onToggle) {
                 props.onToggle({ originalEvent, value });
             } else {
                 if (navigateFocusToChild) {
                     childFocusEvent.current = originalEvent;
                 }
 
-                if (isFiltering) {
-                    setFilterExpandedKeys(value);
-                } else {
-                    setExpandedKeysState(value);
-                }
+                setExpandedKeysState(value);
             }
         };
 
@@ -341,9 +343,16 @@ export const Tree = React.memo(
                         filteredNodes.current.push(copyNode);
                     }
                 }
+
+                onToggle({
+                    originalEvent: null,
+                    value: currentFilterExpandedKeys.current,
+                    navigateFocusToChild: false
+                });
             }
 
-            setFilterExpandedKeys(currentFilterExpandedKeys);
+            currentFilterExpandedKeys.current = {};
+            forceRender((x) => !x);
             filterChanged.current = false;
         };
 
@@ -367,7 +376,7 @@ export const Tree = React.memo(
                 }
 
                 if (matched) {
-                    currentFilterExpandedKeys[node.key] = true;
+                    currentFilterExpandedKeys.current[node.key] = true;
 
                     return true;
                 }

@@ -199,10 +199,6 @@ export const TableBody = React.memo(
             return options ? options[option] : null;
         };
 
-        const getProcessedDataIndex = (rowIndex) => {
-            return props.lazy ? rowIndex - props.first : rowIndex;
-        };
-
         const findIndex = (collection, rowData) => {
             return (collection || []).findIndex((data) => equals(rowData, data));
         };
@@ -355,17 +351,15 @@ export const TableBody = React.memo(
             let rangeEnd;
 
             const isAllowCellSelection = allowCellSelection();
-            const rangeRowIndexInProcessedData = getProcessedDataIndex(rangeRowIndex.current);
-            const anchorRowIndexInProcessedData = getProcessedDataIndex(anchorRowIndex.current);
 
-            if (rangeRowIndexInProcessedData > anchorRowIndexInProcessedData) {
-                rangeStart = anchorRowIndexInProcessedData;
-                rangeEnd = rangeRowIndexInProcessedData;
-            } else if (rangeRowIndexInProcessedData < anchorRowIndexInProcessedData) {
-                rangeStart = rangeRowIndexInProcessedData;
-                rangeEnd = anchorRowIndexInProcessedData;
+            if (rangeRowIndex.current > anchorRowIndex.current) {
+                rangeStart = anchorRowIndex.current;
+                rangeEnd = rangeRowIndex.current;
+            } else if (rangeRowIndex.current < anchorRowIndex.current) {
+                rangeStart = rangeRowIndex.current;
+                rangeEnd = anchorRowIndex.current;
             } else {
-                rangeStart = rangeEnd = rangeRowIndexInProcessedData;
+                rangeStart = rangeEnd = rangeRowIndex.current;
             }
 
             return isAllowCellSelection ? selectRangeOnCell(event, rangeStart, rangeEnd) : selectRangeOnRow(event, rangeStart, rangeEnd);
@@ -410,7 +404,7 @@ export const TableBody = React.memo(
             for (let i = rowRangeStart; i <= rowRangeEnd; i++) {
                 let rowData = value[i];
                 let columns = props.columns;
-                let rowIndex = props.lazy ? i + props.first : i;
+                let rowIndex = props.paginator ? i + props.first : i;
 
                 for (let j = cellRangeStart; j <= cellRangeEnd; j++) {
                     let field = getColumnProp(columns[j], 'field');
@@ -635,6 +629,12 @@ export const TableBody = React.memo(
             }
         };
 
+        const expandedRowsRef = React.useRef(props.expandedRows);
+
+        React.useEffect(() => {
+            expandedRowsRef.current = props.expandedRows;
+        }, [props.expandedRows]);
+
         const onRowToggle = (event) => {
             let expandedRows;
             let dataKey = props.dataKey;
@@ -643,7 +643,7 @@ export const TableBody = React.memo(
             if (hasDataKey) {
                 let dataKeyValue = String(ObjectUtils.resolveFieldData(event.data, dataKey));
 
-                expandedRows = props.expandedRows ? { ...props.expandedRows } : {};
+                expandedRows = expandedRowsRef.current ? { ...expandedRowsRef.current } : {};
 
                 if (expandedRows[dataKeyValue] != null) {
                     delete expandedRows[dataKeyValue];
@@ -659,9 +659,9 @@ export const TableBody = React.memo(
                     }
                 }
             } else {
-                let expandedRowIndex = findIndex(props.expandedRows, event.data);
+                let expandedRowIndex = findIndex(expandedRowsRef.current, event.data);
 
-                expandedRows = props.expandedRows ? [...props.expandedRows] : [];
+                expandedRows = expandedRowsRef.current ? [...expandedRowsRef.current] : [];
 
                 if (expandedRowIndex !== -1) {
                     expandedRows = expandedRows.filter((_, i) => i !== expandedRowIndex);
@@ -910,38 +910,34 @@ export const TableBody = React.memo(
         });
 
         const createEmptyContent = () => {
-            if (!props.loading) {
-                const colSpan = getColumnsLength();
-                const content = ObjectUtils.getJSXElement(props.emptyMessage, { props: props.tableProps, frozen: props.frozenRow }) || localeOption('emptyMessage');
-                const emptyMessageProps = mergeProps(
-                    {
-                        className: cx('emptyMessage'),
-                        role: 'row'
-                    },
-                    ptm('emptyMessage')
-                );
+            const colSpan = getColumnsLength();
+            const content = ObjectUtils.getJSXElement(props.emptyMessage, { props: props.tableProps, frozen: props.frozenRow }) || localeOption('emptyMessage');
+            const emptyMessageProps = mergeProps(
+                {
+                    className: cx('emptyMessage'),
+                    role: 'row'
+                },
+                ptm('emptyMessage')
+            );
 
-                const bodyCellProps = mergeProps(
-                    {
-                        colSpan,
-                        role: 'cell'
-                    },
-                    getColumnPTOptions('root'),
-                    getColumnPTOptions('bodyCell')
-                );
+            const bodyCellProps = mergeProps(
+                {
+                    colSpan,
+                    role: 'cell'
+                },
+                getColumnPTOptions('root'),
+                getColumnPTOptions('bodyCell')
+            );
 
-                return (
-                    <tr {...emptyMessageProps}>
-                        <td {...bodyCellProps}>{content}</td>
-                    </tr>
-                );
-            }
-
-            return null;
+            return (
+                <tr {...emptyMessageProps}>
+                    <td {...bodyCellProps}>{content}</td>
+                </tr>
+            );
         };
 
         const createGroupHeader = (rowData, rowIndex, expanded, colSpan) => {
-            if (isSubheaderGrouping && shouldRenderRowGroupHeader(props.value, rowData, getProcessedDataIndex(rowIndex))) {
+            if (isSubheaderGrouping && shouldRenderRowGroupHeader(props.value, rowData, rowIndex - props.first)) {
                 const style = rowGroupHeaderStyle();
                 const toggler = props.expandableRowGroups && (
                     <RowTogglerButton
@@ -1012,6 +1008,9 @@ export const TableBody = React.memo(
                         hostName={props.hostName}
                         allowCellSelection={_allowCellSelection}
                         allowRowSelection={_allowRowSelection}
+                        cellMemo={props.cellMemo}
+                        cellMemoProps={props.cellMemoProps}
+                        cellMemoPropsDepth={props.cellMemoPropsDepth}
                         cellClassName={props.cellClassName}
                         checkIcon={props.checkIcon}
                         collapsedRowIcon={props.collapsedRowIcon}

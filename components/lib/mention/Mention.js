@@ -54,8 +54,14 @@ export const Mention = React.memo(
         const [bindOverlayListener, unbindOverlayListener] = useOverlayListener({
             target: elementRef,
             overlay: overlayRef,
-            listener: (event, { valid }) => {
-                valid && hide();
+            listener: (event, { valid, type }) => {
+                if (valid) {
+                    if (context.hideOverlaysOnDocumentScrolling || type === 'outside') {
+                        hide();
+                    } else if (!DomHandler.isDocument(event.target)) {
+                        alignOverlay();
+                    }
+                }
             },
             when: overlayVisibleState
         });
@@ -445,7 +451,6 @@ export const Mention = React.memo(
 
             const itemProps = mergeProps(
                 {
-                    key: key,
                     className: cx('item', { isSelected }),
                     onClick: (e) => onItemClick(e, suggestion),
                     'data-p-highlight': isSelected
@@ -454,7 +459,7 @@ export const Mention = React.memo(
             );
 
             return (
-                <li {...itemProps}>
+                <li {...itemProps} key={key}>
                     {content}
                     <Ripple />
                 </li>

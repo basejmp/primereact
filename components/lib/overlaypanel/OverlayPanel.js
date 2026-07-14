@@ -37,19 +37,18 @@ export const OverlayPanel = React.forwardRef((inProps, ref) => {
         overlay: overlayRef,
         listener: (event, { type, valid }) => {
             if (valid) {
-                switch (type) {
-                    case 'outside':
-                        props.dismissable && !isPanelClicked.current && hide();
-                        break;
-                    case 'resize':
-                    case 'scroll':
-                    case 'orientationchange':
-                        align();
-                        break;
+                if (type === 'outside') {
+                    if (props.dismissable && !isPanelClicked.current) {
+                        hide();
+                    }
+
+                    isPanelClicked.current = false;
+                } else if (context.hideOverlaysOnDocumentScrolling) {
+                    hide();
+                } else if (!DomHandler.isDocument(event.target)) {
+                    align();
                 }
             }
-
-            isPanelClicked.current = false;
         },
         when: visibleState
     });
@@ -138,14 +137,31 @@ export const OverlayPanel = React.forwardRef((inProps, ref) => {
         align();
     };
 
+    let bindOverlayTimer = null;
+
     const onEntered = () => {
-        bindOverlayListener();
+        cancelOverlayBind();
+        /**
+         * With cssTransition=false, onEntered may run synchronously before visibleState updates, causing the outside-click listener not to bind.
+         * Fix: defer the binding to the next tick so it runs with the latest state (when=true). (issue: #8183)
+         */
+        bindOverlayTimer = setTimeout(() => {
+            bindOverlayListener();
+        });
 
         props.onShow && props.onShow();
     };
 
     const onExit = () => {
+        cancelOverlayBind();
         unbindOverlayListener();
+    };
+
+    const cancelOverlayBind = () => {
+        if (bindOverlayTimer) {
+            clearTimeout(bindOverlayTimer);
+            bindOverlayTimer = null;
+        }
     };
 
     const onExited = () => {

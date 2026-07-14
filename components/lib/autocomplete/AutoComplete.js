@@ -48,7 +48,15 @@ export const AutoComplete = React.memo(
             overlay: overlayRef,
             listener: (event, { type, valid }) => {
                 if (valid) {
-                    type === 'outside' ? !isInputClicked(event) && hide() : hide();
+                    if (type === 'outside') {
+                        if (!isInputClicked(event)) {
+                            hide();
+                        }
+                    } else if (context.hideOverlaysOnDocumentScrolling) {
+                        hide();
+                    } else if (!DomHandler.isDocument(event.target)) {
+                        alignOverlay();
+                    }
                 }
             },
             when: overlayVisibleState
@@ -252,6 +260,10 @@ export const AutoComplete = React.memo(
         };
 
         const removeItem = (event, index) => {
+            if (props.disabled || props.readOnly) {
+                return;
+            }
+
             const removedValue = props.value[index];
             const newValue = props.value.filter((_, i) => index !== i);
 
@@ -785,6 +797,7 @@ export const AutoComplete = React.memo(
                         listId={listId}
                         onItemClick={selectItem}
                         selectedItem={selectedItem}
+                        onOverlayHide={hide}
                         onClick={onPanelClick}
                         getOptionGroupLabel={getOptionGroupLabel}
                         getOptionGroupChildren={getOptionGroupChildren}

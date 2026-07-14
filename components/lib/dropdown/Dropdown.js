@@ -51,7 +51,15 @@ export const Dropdown = React.memo(
             overlay: overlayRef,
             listener: (event, { type, valid }) => {
                 if (valid) {
-                    type === 'outside' ? !isClearClicked(event) && hide() : hide();
+                    if (type === 'outside') {
+                        if (!isClearClicked(event)) {
+                            hide();
+                        }
+                    } else if (context.hideOverlaysOnDocumentScrolling) {
+                        hide();
+                    } else if (!DomHandler.isDocument(event.target)) {
+                        alignOverlay();
+                    }
                 }
             },
             when: overlayVisibleState
@@ -214,11 +222,11 @@ export const Dropdown = React.memo(
                     break;
 
                 case 'Home':
-                    onHomeKey(event);
+                    onHomeKey(event, props.editable);
                     break;
 
                 case 'End':
-                    onEndKey(event);
+                    onEndKey(event, props.editable);
                     break;
 
                 case 'PageDown':
@@ -443,12 +451,16 @@ export const Dropdown = React.memo(
         };
 
         const onArrowLeftKey = (event, pressedInInputText = false) => {
-            pressedInInputText && setFocusedOptionIndex(-1);
+            if (!pressedInInputText) return;
+
+            props.editable && DomHandler.focus(inputRef.current);
+            setFocusedOptionIndex(-1);
         };
 
         const onHomeKey = (event, pressedInInputText = false) => {
             if (pressedInInputText) {
-                event.currentTarget.setSelectionRange(0, 0);
+                DomHandler.focus(inputRef.current);
+                inputRef.current.setSelectionRange(0, 0);
                 setFocusedOptionIndex(-1);
             } else {
                 changeFocusedOptionIndex(event, findFirstOptionIndex());
@@ -461,9 +473,10 @@ export const Dropdown = React.memo(
 
         const onEndKey = (event, pressedInInputText = false) => {
             if (pressedInInputText) {
-                const target = event.currentTarget;
+                const target = inputRef.current;
                 const len = target.value.length;
 
+                DomHandler.focus(target);
                 target.setSelectionRange(len, len);
                 setFocusedOptionIndex(-1);
             } else {
@@ -488,16 +501,29 @@ export const Dropdown = React.memo(
         };
 
         const onEnterKey = (event) => {
+            event.preventDefault();
+
             if (!overlayVisibleState) {
                 setFocusedOptionIndex(-1);
                 onArrowDownKey(event);
             } else {
-                if (focusedOptionIndex !== -1) {
-                    onOptionSelect(event, visibleOptions[focusedOptionIndex]);
+                if (focusedOptionIndex === -1) {
+                    return;
                 }
-            }
 
-            event.preventDefault();
+                const focusedOption = visibleOptions[focusedOptionIndex];
+                const optionValue = getOptionValue(focusedOption);
+
+                if (optionValue == null || optionValue == undefined) {
+                    hide();
+                    resetFilter();
+                    updateEditableLabel(selectedOption);
+
+                    return;
+                }
+
+                onOptionSelect(event, focusedOption);
+            }
         };
 
         const onEscapeKey = (event) => {
@@ -1248,6 +1274,7 @@ export const Dropdown = React.memo(
                         in={overlayVisibleState}
                         isOptionDisabled={isOptionDisabled}
                         isSelected={isSelected}
+                        onOverlayHide={hide}
                         onClick={onPanelClick}
                         onEnter={onOverlayEnter}
                         onEntered={onOverlayEntered}

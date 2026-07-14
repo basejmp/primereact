@@ -55,12 +55,7 @@ const animationFeaturesData1 = [
     {
         id: 2,
         title: 'PrimeBlocks',
-        description: (
-            <>
-                Fully compatible with <a href="https://blocks.primereact.org/">PrimeBlocks</a>, choose from the wide range of blocks and customize the way you like. Note that <a href="https://blocks.primereact.org/">PrimeBlocks</a> is not included in
-                the template and requires a separate purchase.
-            </>
-        ),
+        description: <>Designed to be fully compatible with upcoming next-gen PrimeBlocks, choose from the extensive range of blocks and customize the way you like.</>,
         src: 'https://primefaces.org/cdn/primereact/images/templates/apollo/features-animation-blocks.png'
     },
     {
@@ -175,13 +170,13 @@ const license = {
             title: 'Basic License',
             price: '$59',
             discountPrice: '$39',
-            included: ['Non Commercial Usage', 'Single End Product, No Multi-Use', '1 Year Free Updates']
+            included: ['Non Commercial Usage', 'Single End Product, No Multi-Use', '1 Year Free Updates | $19 for +1 year']
         },
         {
             title: 'Extended License',
             price: '$590',
             discountPrice: '$390',
-            included: ['Commercial Usage', 'Multiple End Products', '1 Year Free Updates']
+            included: ['Commercial Usage', 'Multiple End Products', '1 Year Free Updates | $190 for +1 year']
         }
     ]
 };
@@ -192,7 +187,8 @@ const templateHeroData = {
     dashboard2: 'https://primefaces.org/cdn/primereact/images/templates/apollo/apollo-hero-dashboard2.png',
     description: 'Application template for React based on the popular NextJS framework with light-dim-dark modes, four menu layouts, various menu themes, sample apps, ready to use template pages and 24 PrimeReact themes.',
     liveHref: 'https://apollo.primereact.org',
-    docHref: 'https://apollo.primereact.org/documentation'
+    docHref: 'https://apollo.primereact.org/documentation',
+    storeHref: 'https://primeui.store/templates/react/apollo'
 };
 
 const ApolloSeparator = () => {

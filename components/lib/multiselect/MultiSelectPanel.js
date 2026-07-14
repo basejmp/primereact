@@ -69,6 +69,7 @@ export const MultiSelectPanel = React.memo(
                     getOptionValue={props.getOptionValue}
                     updateModel={props.updateModel}
                     onFilter={onFilterInputChange}
+                    onFilterKeyDown={props.onFilterKeyDown}
                     filterPlaceholder={props.filterPlaceholder}
                     onClose={props.onCloseClick}
                     showSelectAll={props.showSelectAll}
@@ -216,7 +217,8 @@ export const MultiSelectPanel = React.memo(
                                     style: options.style,
                                     className: classNames(options.className, cx('list', { virtualScrollerProps: props.virtualScrollerOptions })),
                                     role: 'listbox',
-                                    'aria-multiselectable': true
+                                    'aria-multiselectable': true,
+                                    id: props.listId
                                 },
                                 getPTOptions('list')
                             );
@@ -243,7 +245,8 @@ export const MultiSelectPanel = React.memo(
                 {
                     className: cx('list'),
                     role: 'listbox',
-                    'aria-multiselectable': true
+                    'aria-multiselectable': true,
+                    id: props.listId
                 },
                 getPTOptions('list')
             );
@@ -265,7 +268,8 @@ export const MultiSelectPanel = React.memo(
                 {
                     className: classNames(props.panelClassName, cx('panel', { panelProps: props, context, allowOptionSelect })),
                     style: props.panelStyle,
-                    onClick: props.onClick
+                    onClick: props.onClick,
+                    'data-pr-is-overlay': true
                 },
                 getPTOptions('panel')
             );

@@ -1,4 +1,6 @@
 import Head from 'next/head';
+import { Badge } from '@/components/lib/badge/Badge';
+import { Tooltip } from '@/components/lib/tooltip/Tooltip';
 
 const UIKitPage = (props) => {
     return (
@@ -190,7 +192,10 @@ const UIKitPage = (props) => {
                                             </li>
                                             <li className="flex align-items-center mb-3">
                                                 <i className="pi pi-check-circle text-green-500 mr-2" />
-                                                <span>1 Year Free Updates</span>
+                                                <span className="inline-flex items-center gap-2">
+                                                    1 Year Free Updates <Badge className="badge1" value="?" severity="secondary" data-pr-tooltip="$99 for + 1 Year" style={{ cursor: 'pointer' }} />
+                                                    <Tooltip target=".badge1" />
+                                                </span>
                                             </li>
                                             <li className="flex align-items-center mb-3">
                                                 <i className="pi pi-check-circle text-green-500 mr-2" />
@@ -198,7 +203,7 @@ const UIKitPage = (props) => {
                                             </li>
                                         </ul>
                                         <hr className="mb-3 mx-0 border-top-1 border-none surface-border mt-auto" />
-                                        <a href="https://www.primefaces.org/store/uikit.xhtml" className="bg-blue-500 text-white hover:bg-blue-400 p-3 w-full border-round text-center transition-colors transition-duration-300 font-bold">
+                                        <a href="https://primeui.store/uikit" className="bg-blue-500 text-white hover:bg-blue-400 p-3 w-full border-round text-center transition-colors transition-duration-300 font-bold">
                                             Buy Now
                                         </a>
                                     </div>
@@ -234,7 +239,10 @@ const UIKitPage = (props) => {
                                             </li>
                                             <li className="flex align-items-center mb-3">
                                                 <i className="pi pi-check-circle text-green-500 mr-2" />
-                                                <span>1 Year Free Updates</span>
+                                                <span className="inline-flex items-center gap-2">
+                                                    1 Year Free Updates <Badge className="badge2" value="?" severity="secondary" data-pr-tooltip="$249 for + 1 Year" style={{ cursor: 'pointer' }} />
+                                                    <Tooltip target=".badge2" />
+                                                </span>
                                             </li>
                                             <li className="flex align-items-center mb-3">
                                                 <i className="pi pi-check-circle text-green-500 mr-2" />
@@ -242,7 +250,7 @@ const UIKitPage = (props) => {
                                             </li>
                                         </ul>
                                         <hr className="mb-3 mx-0 border-top-1 border-none surface-border" />
-                                        <a href="https://www.primefaces.org/store/uikit.xhtml" className="bg-purple-500 text-white hover:bg-purple-400 p-3 w-full border-round text-center transition-colors transition-duration-300 font-bold">
+                                        <a href="https://primeui.store/uikit" className="bg-purple-500 text-white hover:bg-purple-400 p-3 w-full border-round text-center transition-colors transition-duration-300 font-bold">
                                             Buy Now
                                         </a>
                                     </div>
@@ -278,7 +286,10 @@ const UIKitPage = (props) => {
                                             </li>
                                             <li className="flex align-items-center mb-3">
                                                 <i className="pi pi-check-circle text-green-500 mr-2" />
-                                                <span>1 Year Free Updates</span>
+                                                <span className="inline-flex items-center gap-2">
+                                                    1 Year Free Updates <Badge className="badge3" value="?" severity="secondary" data-pr-tooltip="Contact Us" style={{ cursor: 'pointer' }} />
+                                                    <Tooltip target=".badge3" />
+                                                </span>
                                             </li>
                                             <li className="flex align-items-center mb-3">
                                                 <i className="pi pi-check-circle text-green-500 mr-2" />

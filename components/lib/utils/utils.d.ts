@@ -55,7 +55,7 @@ export declare class DomHandler {
     static flipfitCollision(el: HTMLElement, target: HTMLElement, my?: string, at?: string, callback?: any): void;
     static findCollisionPosition(position: string): void;
     static getParents(el: HTMLElement, parents?: any[]): any[];
-    static getScrollableParents(el: HTMLElement, hideOverlaysOnDocumentScrolling?: boolean): any[];
+    static getScrollableParents(el: HTMLElement): any[];
     static getHiddenElementOuterHeight(el: HTMLElement): number;
     static getHiddenElementOuterWidth(el: HTMLElement): number;
     static getHiddenElementDimensions(el: HTMLElement): { width?: number; height?: number };
@@ -70,6 +70,7 @@ export declare class DomHandler {
     static appendChild(el: HTMLElement, target: HTMLElement): void;
     static removeChild(el: HTMLElement, target: HTMLElement): void;
     static isElement(obj: any): boolean;
+    static isDocument(obj: any): boolean;
     static scrollInView(container: HTMLElement, item: HTMLElement): void;
     static clearSelection(): void;
     static calculateScrollbarWidth(el: HTMLElement): number;
@@ -152,7 +153,7 @@ export declare class ObjectUtils {
     static sort(value1: any, value2: any, order: number, locale: string | string[]): number;
     static getNestedValue(obj: object, path: string): any;
     static absoluteCompare(objA: object, objB: object, maxDepth?: number, currentDepth?: number): boolean;
-    static selectiveCompare(a: object, b: object, keysToCompare?: string[]): boolean;
+    static selectiveCompare(a: object, b: object, keysToCompare?: string[], maxDepth?: number): boolean;
 }
 
 /**

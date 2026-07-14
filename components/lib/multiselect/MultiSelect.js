@@ -8,7 +8,7 @@ import { TimesIcon } from '../icons/times';
 import { TimesCircleIcon } from '../icons/timescircle';
 import { OverlayService } from '../overlayservice/OverlayService';
 import { Tooltip } from '../tooltip/Tooltip';
-import { DomHandler, IconUtils, ObjectUtils, ZIndexUtils, classNames } from '../utils/Utils';
+import { DomHandler, IconUtils, ObjectUtils, UniqueComponentId, ZIndexUtils, classNames } from '../utils/Utils';
 import { MultiSelectBase } from './MultiSelectBase';
 import { MultiSelectPanel } from './MultiSelectPanel';
 
@@ -52,9 +52,13 @@ export const MultiSelect = React.memo(
             listener: (event, { type, valid }) => {
                 if (valid) {
                     if (type === 'outside') {
-                        !isClearClicked(event) && !isSelectAllClicked(event) && hide();
-                    } else {
+                        if (!isClearClicked(event) && !isSelectAllClicked(event)) {
+                            hide();
+                        }
+                    } else if (context.hideOverlaysOnDocumentScrolling) {
                         hide();
+                    } else if (!DomHandler.isDocument(event.target)) {
+                        alignOverlay();
                     }
                 }
             },
@@ -376,6 +380,66 @@ export const MultiSelect = React.memo(
             }
 
             setClicked(false);
+        };
+
+        const onFilterKeyDown = (event) => {
+            switch (event.code) {
+                case 'ArrowUp':
+                    if (props.inline) {
+                        break;
+                    }
+
+                    onArrowUpKey(event);
+                    break;
+
+                case 'ArrowDown':
+                    if (props.inline) {
+                        break;
+                    }
+
+                    onArrowDownKey(event);
+
+                    break;
+
+                case 'NumpadEnter':
+                case 'Enter':
+                    if (props.inline) {
+                        break;
+                    }
+
+                    onEnterKey(event);
+                    break;
+
+                case 'Home':
+                    if (props.inline) {
+                        break;
+                    }
+
+                    onHomeKey(event);
+                    event.preventDefault();
+                    break;
+
+                case 'End':
+                    if (props.inline) {
+                        break;
+                    }
+
+                    onEndKey(event);
+                    event.preventDefault();
+                    break;
+
+                case 'Escape':
+                    if (props.inline) {
+                        break;
+                    }
+
+                    hide();
+                    break;
+
+                case 'Tab':
+                    onTabKey(event);
+                    break;
+            }
         };
 
         const onSelectAll = (event) => {
@@ -823,21 +887,19 @@ export const MultiSelect = React.memo(
         };
 
         const getLabel = () => {
-            let label;
-
-            if (!empty && !props.fixedPlaceholder) {
-                if (ObjectUtils.isNotEmpty(props.maxSelectedLabels) && props.value?.length > props.maxSelectedLabels) {
-                    return getSelectedItemsLabel();
-                }
-
-                if (ObjectUtils.isArray(props.value)) {
-                    return props.value.reduce((acc, value, index) => acc + (index !== 0 ? ', ' : '') + getLabelByValue(value), '');
-                }
-
+            if (empty || props.fixedPlaceholder) {
                 return '';
             }
 
-            return label;
+            if (ObjectUtils.isNotEmpty(props.maxSelectedLabels) && props.value?.length > props.maxSelectedLabels) {
+                return getSelectedItemsLabel();
+            }
+
+            if (ObjectUtils.isArray(props.value)) {
+                return props.value.reduce((acc, value, index) => acc + (index !== 0 ? ', ' : '') + getLabelByValue(value), '');
+            }
+
+            return '';
         };
 
         const getLabelContent = () => {
@@ -1112,7 +1174,9 @@ export const MultiSelect = React.memo(
             },
             ptm('hiddenInputWrapper')
         );
-
+        const inputId = React.useMemo(() => {
+            return props.inputId ?? UniqueComponentId();
+        }, [props.inputId]);
         const inputProps = mergeProps(
             {
                 ref: inputRef,
@@ -1124,6 +1188,7 @@ export const MultiSelect = React.memo(
                 onKeyDown: onKeyDown,
                 role: 'combobox',
                 'aria-expanded': overlayVisibleState,
+                'aria-controls': `${inputId}-multi-selectbox`,
                 disabled: props.disabled,
                 tabIndex: !props.disabled ? props.tabIndex : -1,
                 value: getLabel(),
@@ -1151,6 +1216,7 @@ export const MultiSelect = React.memo(
                         ref={overlayRef}
                         visibleOptions={visibleOptions}
                         {...props}
+                        listId={`${inputId}-multi-selectbox`}
                         onClick={onPanelClick}
                         onOverlayHide={hide}
                         filterValue={filterValue}
@@ -1165,6 +1231,7 @@ export const MultiSelect = React.memo(
                         getOptionValue={getOptionValue}
                         updateModel={updateModel}
                         onFilterInputChange={onFilterInputChange}
+                        onFilterKeyDown={onFilterKeyDown}
                         resetFilter={resetFilter}
                         onCloseClick={onCloseClick}
                         onSelectAll={onSelectAll}

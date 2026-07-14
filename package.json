@@ -1,7 +1,7 @@
 {
     "name": "primereact",
     "private": false,
-    "version": "10.9.4",
+    "version": "10.9.8",
     "scripts": {
         "dev": "next dev",
         "start": "next start",
@@ -9,8 +9,8 @@
         "build:lib": "NODE_ENV=production INPUT_DIR=components/lib/ OUTPUT_DIR=dist/ npm run build:package",
         "build:lib:windows": "set \"NODE_ENV=production\" && set \"INPUT_DIR=components/lib/\" && set \"OUTPUT_DIR=dist/\" && npm run build:package",
         "build:package": "npm run build:check && rollup -c && gulp build-resources && npm run build:api",
-        "dev:link": "NPM_LINK=true NODE_ENV=production INPUT_DIR=components/lib/ OUTPUT_DIR=dist/ npm run build:package:dev",
-        "dev:link:windows": "set \"NPM_LINK=true\" && set \"NODE_ENV=production\" && set \"INPUT_DIR=components/lib/\" && set \"OUTPUT_DIR=dist/\" && npm run build:package:dev",
+        "dev:link": "NODE_ENV=production INPUT_DIR=components/lib/ OUTPUT_DIR=dist/ npm run build:package:dev",
+        "dev:link:windows": "set \"NODE_ENV=production\" && set \"INPUT_DIR=components/lib/\" && set \"OUTPUT_DIR=dist/\" && npm run build:package:dev",
         "build:package:dev": "npm run build:check && gulp build-resources && npm run build:api && rollup -c --watch",
         "build:api": "npm run apiwebtypes && npm run apidoc",
         "build:check": "npm run lint && npm run format:check && npm run type:check && npm run security:check",
@@ -28,10 +28,10 @@
     },
     "dependencies": {
         "@docsearch/react": "3.9.0",
-        "chart.js": "4.4.8",
+        "chart.js": "4.5.0",
         "file-saver": "2.0.5",
-        "fs-extra": "^11.3.0",
-        "jspdf": "3.0.1",
+        "fs-extra": "^11.3.2",
+        "jspdf": "4.0.0",
         "jspdf-autotable": "5.0.2",
         "next": "12.3.7",
         "path": "^0.12.7",
@@ -67,7 +67,7 @@
         "eslint-config-next": "14.2.14",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-jest-dom": "^5.4.0",
-        "gulp": "^5.0.0",
+        "gulp": "^5.0.1",
         "gulp-concat": "^2.6.1",
         "gulp-flatten": "^0.4.0",
         "gulp-rename": "^2.0.0",
@@ -85,5 +85,6 @@
     },
     "engines": {
         "node": ">=18"
-    }
+    },
+    "packageManager": "yarn@4.10.3+sha512.c38cafb5c7bb273f3926d04e55e1d8c9dfa7d9c3ea1f36a4868fa028b9e5f72298f0b7f401ad5eb921749eb012eb1c3bb74bf7503df3ee43fd600d14a018266f"
 }

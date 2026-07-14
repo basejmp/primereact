@@ -40,11 +40,6 @@ const TemplatesPage = () => {
                         <span>CTO</span>
                     </div>
                     <div className="flex flex-column align-items-center flex-auto">
-                        <img src="https://primefaces.org/cdn/primereact/images/team/onur.jpg" className="border-circle mb-4" alt="Onur Şentüre" />
-                        <span className="mb-2 text-xl font-bold">Onur Şentüre</span>
-                        <span>Design Lead</span>
-                    </div>
-                    <div className="flex flex-column align-items-center flex-auto">
                         <img src="https://primefaces.org/cdn/primereact/images/team/dilara.jpg" className="border-circle mb-4" alt="Dilara Can" />
                         <span className="mb-2 text-xl font-bold">Dilara Güngenci</span>
                         <span>Business Administration</span>
@@ -65,11 +60,6 @@ const TemplatesPage = () => {
                         <span>Front-End Developer</span>
                     </div>
                     <div className="flex flex-column align-items-center flex-auto">
-                        <img src="https://primefaces.org/cdn/primereact/images/team/umit.jpg" className="border-circle mb-4" alt="Ümit Çelik" />
-                        <span className="mb-2 text-xl font-bold">Ümit Çelik</span>
-                        <span>UI/UX Designer</span>
-                    </div>
-                    <div className="flex flex-column align-items-center flex-auto">
                         <img src="https://primefaces.org/cdn/primereact/images/team/mehmet.jpg" className="border-circle mb-4" alt="Mehmet Çetin" />
                         <span className="mb-2 text-xl font-bold">Mehmet Çetin</span>
                         <span>Front-End Developer</span>
@@ -78,6 +68,16 @@ const TemplatesPage = () => {
                         <img src="https://primefaces.org/cdn/primereact/images/team/taner.jpg" className="border-circle mb-4" alt="Taner Engin" />
                         <span className="mb-2 text-xl font-bold">Taner Engin</span>
                         <span>Front-End Developer</span>
+                    </div>
+                    <div className="flex flex-column align-items-center flex-auto">
+                        <img src="https://primefaces.org/cdn/primereact/images/team/giray.jpg" className="border-circle mb-4" alt="Giray Maviş" />
+                        <span className="mb-2 text-xl font-bold">Giray Maviş</span>
+                        <span>Front-End Developer</span>
+                    </div>
+                    <div className="flex flex-column align-items-center flex-auto">
+                        <img src="https://primefaces.org/cdn/primereact/images/team/kerem.jpg" className="border-circle mb-4" alt="Kerem Yıldan" />
+                        <span className="mb-2 text-xl font-bold">Kerem Yıldan</span>
+                        <span>Lead Designer</span>
                     </div>
                 </div>
             </div>

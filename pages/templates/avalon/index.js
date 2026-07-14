@@ -54,12 +54,7 @@ const animationFeaturesData1 = [
     {
         id: 2,
         title: 'PrimeBlocks',
-        description: (
-            <>
-                Fully compatible with <a href="https://blocks.primereact.org/">PrimeBlocks</a>, choose from the wide range of blocks and customize the way you like. Note that <a href="https://blocks.primereact.org/">PrimeBlocks</a> is not included in
-                the template and requires a separate purchase.
-            </>
-        ),
+        description: <>Designed to be fully compatible with upcoming next-gen PrimeBlocks, choose from the extensive range of blocks and customize the way you like.</>,
         src: 'https://primefaces.org/cdn/primereact/images/templates/apollo/features-animation-blocks.png'
     },
     {
@@ -174,13 +169,13 @@ const license = {
             title: 'Basic License',
             price: '$49',
             discountPrice: '$29',
-            included: ['Non Commercial Usage', 'Single End Product, No Multi-Use', '1 Year Free Updates']
+            included: ['Non Commercial Usage', 'Single End Product, No Multi-Use', '1 Year Free Updates | $19 for +1 year']
         },
         {
             title: 'Extended License',
             price: '$490',
             discountPrice: '$290',
-            included: ['Commercial Usage', 'Multiple End Products', '1 Year Free Updates']
+            included: ['Commercial Usage', 'Multiple End Products', '1 Year Free Updates | $190 for +1 year']
         }
     ]
 };
@@ -194,7 +189,8 @@ const templateHeroData = {
     dashboard2: 'https://primefaces.org/cdn/primereact/images/templates/avalon/avalon-hero-dashboard2.png',
     description: 'A modern and easy to use premium application template with highly customizable layout features. Based on a bootstrap styling, it is fully responsive, touch optimized, built with SASS, CSS3 and HTML5.',
     liveHref: 'https://avalon.primereact.org/',
-    docHref: 'https://avalon.primereact.org/documentation'
+    docHref: 'https://avalon.primereact.org/documentation',
+    storeHref: 'https://primeui.store/templates/react/avalon'
 };
 
 const AvalonPage = () => {

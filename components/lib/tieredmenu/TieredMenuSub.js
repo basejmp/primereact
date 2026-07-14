@@ -65,6 +65,10 @@ export const TieredMenuSub = React.memo(
         };
 
         const getItemId = (processedItem) => {
+            if (processedItem.item && processedItem.item.id) {
+                return processedItem.item.id;
+            }
+
             return `${props.menuId}_${processedItem.key}`;
         };
 
@@ -119,14 +123,13 @@ export const TieredMenuSub = React.memo(
 
             const separatorProps = mergeProps(
                 {
-                    key,
                     className: cx('separator'),
                     role: 'separator'
                 },
                 ptm('separator', { hostName: props.hostName })
             );
 
-            return <li {...separatorProps} />;
+            return <li {...separatorProps} key={key} />;
         };
 
         const createSubmenu = (processedItem, index) => {
@@ -244,7 +247,6 @@ export const TieredMenuSub = React.memo(
 
             const menuitemProps = mergeProps(
                 {
-                    key,
                     id: key,
                     'aria-label': item.label,
                     'aria-disabled': disabled,
@@ -264,7 +266,7 @@ export const TieredMenuSub = React.memo(
             );
 
             return (
-                <li {...menuitemProps}>
+                <li {...menuitemProps} key={key}>
                     <div {...contentProps}>{content}</div>
                     {submenu}
                 </li>
@@ -272,7 +274,7 @@ export const TieredMenuSub = React.memo(
         };
 
         const createItem = (processedItem, index) => {
-            if (processedItem.visible === false) {
+            if (isItemVisible(processedItem) === false) {
                 return null;
             }
 

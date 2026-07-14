@@ -106,7 +106,7 @@ export const HeaderCell = React.memo((props) => {
 
             if (align === 'right') {
                 let right = 0;
-                let next = elementRef.current.nextElementSibling;
+                let next = elementRef.current && elementRef.current.nextElementSibling;
 
                 if (next && next.classList.contains('p-frozen-column')) {
                     right = DomHandler.getOuterWidth(next) + parseFloat(next.style.right || 0);
@@ -115,10 +115,43 @@ export const HeaderCell = React.memo((props) => {
                 styleObject.right = right + 'px';
             } else {
                 let left = 0;
-                let prev = elementRef.current.previousElementSibling;
+                let prev = elementRef.current?.previousElementSibling;
 
-                if (prev && prev.classList.contains('p-frozen-column')) {
-                    left = DomHandler.getOuterWidth(prev) + parseFloat(prev.style.left || 0);
+                const thead = elementRef.current?.closest('thead');
+                const scrollContainer = thead?.parentElement.parentElement;
+                const scrollLeft = scrollContainer?.scrollLeft || 0;
+
+                const isMultiRow = thead && thead.querySelectorAll('tr').length > 1;
+
+                if (elementRef.current) {
+                    if (!isMultiRow) {
+                        while (prev) {
+                            if (prev.classList.contains('p-frozen-column')) {
+                                left = DomHandler.getOuterWidth(prev) + parseFloat(prev.style.left || 0);
+                                break;
+                            }
+
+                            prev = prev.previousElementSibling;
+                        }
+                    } else {
+                        const targetLeft = elementRef.current.offsetLeft - scrollLeft;
+                        const frozenCells = Array.from(thead.querySelectorAll('th.p-frozen-column'));
+
+                        let candidate = null;
+
+                        for (const cell of frozenCells) {
+                            const cellLeft = cell.offsetLeft - scrollLeft;
+                            const cellRight = cellLeft + DomHandler.getOuterWidth(cell);
+
+                            if (cellRight <= targetLeft && (!candidate || cellRight > candidate.offsetLeft + DomHandler.getOuterWidth(candidate))) {
+                                candidate = cell;
+                            }
+                        }
+
+                        if (candidate) {
+                            left = candidate.offsetLeft + DomHandler.getOuterWidth(candidate) - scrollLeft;
+                        }
+                    }
                 }
 
                 styleObject.left = left + 'px';
@@ -129,8 +162,10 @@ export const HeaderCell = React.memo((props) => {
             if (filterRow) {
                 let index = DomHandler.index(elementRef.current);
 
-                filterRow.children[index].style.left = styleObject.left;
-                filterRow.children[index].style.right = styleObject.right;
+                if (filterRow.children[index]) {
+                    filterRow.children[index].style.left = styleObject.left;
+                    filterRow.children[index].style.right = styleObject.right;
+                }
             }
 
             const isSameStyle = styleObjectState.left === styleObject.left && styleObjectState.right === styleObject.right;

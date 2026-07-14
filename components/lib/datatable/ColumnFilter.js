@@ -55,10 +55,18 @@ export const ColumnFilter = React.memo((props) => {
         overlay: overlayRef,
         listener: (event, { type, valid }) => {
             if (valid) {
-                type === 'outside' ? !selfClick.current && !isTargetClicked(event.target) && hide() : hide();
-            }
+                if (type === 'outside') {
+                    if (!selfClick.current && !isTargetClicked(event.target)) {
+                        hide();
+                    }
 
-            selfClick.current = false;
+                    selfClick.current = false;
+                } else if (context.hideOverlaysOnDocumentScrolling) {
+                    hide();
+                } else if (!DomHandler.isDocument(event.target)) {
+                    DomHandler.alignOverlay(overlayRef.current, iconRef.current, (context && context.appendTo) || PrimeReact.appendTo, false);
+                }
+            }
         },
         when: overlayVisibleState
     });
@@ -165,7 +173,7 @@ export const ColumnFilter = React.memo((props) => {
             filters[field].constraints[0] = { value: null, matchMode: defaultConstraint.matchMode };
         } else {
             filters[field].value = null;
-            filters[field].matchMode = defaultConstraint.matchMode;
+            filters[field].matchMode = defaultConstraint ? defaultConstraint.matchMode : filters[field].matchMode;
         }
 
         filterClearCallback && filterClearCallback();
@@ -254,6 +262,7 @@ export const ColumnFilter = React.memo((props) => {
         props.onFilterChange(filters);
         props.onFilterApply();
         hide();
+        iconRef.current?.focus();
     };
 
     const onRowMatchModeKeyDown = (event, matchMode, clear) => {

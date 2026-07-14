@@ -51,10 +51,14 @@ export const Menu = React.memo(
         const [bindOverlayListener, unbindOverlayListener] = useOverlayListener({
             target: targetRef,
             overlay: menuRef,
-            listener: (event, { valid }) => {
+            listener: (event, { valid, type }) => {
                 if (valid) {
-                    hide(event);
-                    setFocusedOptionIndex(-1);
+                    if (context.hideOverlaysOnDocumentScrolling || type === 'outside') {
+                        hide(event);
+                        setFocusedOptionIndex(-1);
+                    } else if (!DomHandler.isDocument(event.target)) {
+                        DomHandler.absolutePosition(menuRef.current, targetRef.current, props.popupAlignment);
+                    }
                 }
             },
             when: visibleState
@@ -119,6 +123,10 @@ export const Menu = React.memo(
         };
 
         const onListBlur = (event) => {
+            const { currentTarget, relatedTarget } = event;
+
+            if (relatedTarget && currentTarget.contains(relatedTarget)) return;
+
             setFocused(false);
             setFocusedOptionIndex(-1);
             props.onBlur && props.onBlur(event);
@@ -413,6 +421,7 @@ export const Menu = React.memo(
                 {
                     id: key,
                     className: classNames(item.className, cx('menuitem', { focused: focusedOptionIndex === key })),
+                    onClick: (event) => onItemClick(event, item, key),
                     style: sx('menuitem', { item }),
                     role: 'menuitem',
                     'aria-label': item.label,
